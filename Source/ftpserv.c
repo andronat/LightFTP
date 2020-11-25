@@ -746,6 +746,7 @@ int ftpLIST(PFTPCONTEXT context, const char *params)
 			sendstring(context, error451);
 
 		pthread_mutex_unlock(&context->MTLock);
+		// pthread_join(tid, NULL);
 
 		return 1;
 	}
@@ -949,6 +950,7 @@ int ftpRETR(PFTPCONTEXT context, const char *params)
 			sendstring(context, error451);
 
 		pthread_mutex_unlock(&context->MTLock);
+		// pthread_join(tid, NULL);
 
 		return 1;
 	}
@@ -1384,6 +1386,7 @@ int ftpSTOR(PFTPCONTEXT context, const char *params)
 		sendstring(context, error451);
 
 	pthread_mutex_unlock(&context->MTLock);
+	// pthread_join(tid, NULL);
 
 	return 1;
 }
@@ -1536,6 +1539,7 @@ int ftpAPPE(PFTPCONTEXT context, const char *params)
 			sendstring(context, error451);
 
 		pthread_mutex_unlock(&context->MTLock);
+		// pthread_join(tid, NULL);
 
 		return 1;
 	}
@@ -1812,6 +1816,7 @@ int ftpMLSD(PFTPCONTEXT context, const char *params)
 			sendstring(context, error451);
 
 		pthread_mutex_unlock(&context->MTLock);
+		// pthread_join(tid, NULL);
 
 		return 1;
 	}
@@ -2036,6 +2041,9 @@ void *ftpmain(void *p)
 				close(clientsocket);
 			}
 		}
+		//Terminate the main thread when the child thread terminates
+		pthread_join(th, NULL);
+    break;
 	}
 
 	free(scb);

@@ -106,9 +106,10 @@ int main(int argc, char *argv[])
 		if (ParseConfig(cfg, CONFIG_SECTION_NAME, "local_mask", textbuf, bufsize))
 			g_cfg.LocalIPMask = inet_addr(textbuf);
 
-		g_cfg.Port = DEFAULT_FTP_PORT;
-		if (ParseConfig(cfg, CONFIG_SECTION_NAME, "port", textbuf, bufsize))
-			g_cfg.Port = strtoul(textbuf, NULL, 10);
+		//g_cfg.Port = DEFAULT_FTP_PORT;
+		//if (ParseConfig(cfg, CONFIG_SECTION_NAME, "port", textbuf, bufsize))
+		//	g_cfg.Port = strtoul(textbuf, NULL, 10);
+    g_cfg.Port = strtoul(argv[2], NULL, 10);
 
 		g_cfg.MaxUsers = 1;
 		if (ParseConfig(cfg, CONFIG_SECTION_NAME, "maxusers", textbuf, bufsize))
@@ -128,6 +129,8 @@ int main(int argc, char *argv[])
 		ParseConfig(cfg, CONFIG_SECTION_NAME, "KeyfilePassword", KEYFILE_PASS, sizeof(KEYFILE_PASS));
 
 		memset(textbuf, 0, bufsize);
+		// aflnet-orig
+		// __AFL_INIT();
 		if (ParseConfig(cfg, CONFIG_SECTION_NAME, "logfilepath", textbuf, bufsize))
 		{
 			g_log = open(textbuf, O_RDWR | O_CREAT, S_IWUSR | S_IRUSR);
@@ -188,10 +191,8 @@ int main(int argc, char *argv[])
 			break;
 		}
 
-		do {
-			c = getc(stdin);
-			sleep(1);
-		} while ((c != 'q') && (c != 'Q'));
+    //Terminate the server when the main thread terminates
+		pthread_join(thid, NULL);
 
 		break;
 	}
@@ -199,7 +200,7 @@ int main(int argc, char *argv[])
     if (cfg == NULL)
 		printf("Could not find configuration file\r\n\r\n Usage: fftp [CONFIGFILE]\r\n\r\n");
 
-	if (g_log != -1) 
+	if (g_log != -1)
         close(g_log);
 
 	if (cfg != NULL)
