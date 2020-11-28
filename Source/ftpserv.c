@@ -746,7 +746,7 @@ int ftpLIST(PFTPCONTEXT context, const char *params)
 			sendstring(context, error451);
 
 		pthread_mutex_unlock(&context->MTLock);
-		// pthread_join(tid, NULL);
+		pthread_join(tid, NULL);
 
 		return 1;
 	}
@@ -950,7 +950,7 @@ int ftpRETR(PFTPCONTEXT context, const char *params)
 			sendstring(context, error451);
 
 		pthread_mutex_unlock(&context->MTLock);
-		// pthread_join(tid, NULL);
+		pthread_join(tid, NULL);
 
 		return 1;
 	}
@@ -1386,7 +1386,7 @@ int ftpSTOR(PFTPCONTEXT context, const char *params)
 		sendstring(context, error451);
 
 	pthread_mutex_unlock(&context->MTLock);
-	// pthread_join(tid, NULL);
+	pthread_join(tid, NULL);
 
 	return 1;
 }
@@ -1539,7 +1539,7 @@ int ftpAPPE(PFTPCONTEXT context, const char *params)
 			sendstring(context, error451);
 
 		pthread_mutex_unlock(&context->MTLock);
-		// pthread_join(tid, NULL);
+		pthread_join(tid, NULL);
 
 		return 1;
 	}
@@ -1816,7 +1816,7 @@ int ftpMLSD(PFTPCONTEXT context, const char *params)
 			sendstring(context, error451);
 
 		pthread_mutex_unlock(&context->MTLock);
-		// pthread_join(tid, NULL);
+		pthread_join(tid, NULL);
 
 		return 1;
 	}
